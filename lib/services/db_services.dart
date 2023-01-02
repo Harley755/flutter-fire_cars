@@ -31,10 +31,28 @@ class DbServices extends ChangeNotifier {
           'carUrlImg': car.carUrlImg,
           'carUserID': car.carUserID,
           'carUserName': car.carUserName,
-          'carTimestamp': car.carTimestamp,
+          'carTimestamp': FieldValue.serverTimestamp(),
           'carFavoriteCount': 0,
         })
         .then((value) => logger.d("Car add successfully"))
         .onError((error, stackTrace) => logger.d("Add car error $error"));
+  }
+
+  // RECUPERER TOUTES LES VOITURES
+  Future<List<Iterable<Car>>> get cars {
+    Query queryCars = _cars.orderBy('carTimestamp', descending: true);
+    return queryCars.snapshots().map((snapshot) {
+      return snapshot.docs.map(
+        (doc) => Car(
+          carID: doc.id,
+          carName: doc.get('carName'),
+          carUrlImg: doc.get('carUrlImg'),
+          carUserID: doc.get('carUserID'),
+          carUserName: doc.get('carUserName'),
+          carTimestamp: doc.get('carTimestamp'),
+          carFavoriteCount: doc.get('carFavoriteCount'),
+        ),
+      );
+    }).toList();
   }
 }
