@@ -9,6 +9,7 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      pinned: true,
       title: OpenSans(
         text: "Fire Cars",
         size: 30.0,

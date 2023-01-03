@@ -10,6 +10,9 @@ class DbServices {
 
   var logger = Logger();
 
+  String? userID, carID;
+  DbServices({this.userID, this.carID});
+
   // UPLOAD L'iMAGE VERS FIREBASE STORAGE
   Future<String> uploadFile(file) async {
     Reference reference = _storage.ref().child('cars/${DateTime.now()}.png');
@@ -51,16 +54,46 @@ class DbServices {
     });
   }
 
-  //   Future<void> incomesStream() async {
-  //   await for (var snapshot in _cars
-  //       .snapshots()) {
-  //     incomesName = [];
-  //     incomesAmount = [];
-  //     for (var income in snapshot.docs) {
-  //       incomesName.add(income.data()['Name']);
-  //       incomesAmount.add(income.data()['Amount']);
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
+  // AJOUT DE LA VOITURE FAVORIS DANS UNE SOUS-COLLECTION
+  void addFavoriteCar(Car car, String userID) async {
+    final carDocRef = _cars.doc(car.carID);
+    final favoritedBy = carDocRef.collection('favoritedBy');
+    int carFavoriteCount = car.carFavoriteCount!;
+    int increaseCount = carFavoriteCount += 1;
+    favoritedBy.doc(userID).set({
+      'carName': car.carName,
+      'carUrlImg': car.carUrlImg,
+      'carUserID': car.carUserID,
+      'carUserName': car.carUserName,
+      'carTimestamp': car.carTimestamp,
+      'carFavoriteCount': increaseCount,
+    });
+    carDocRef.update({'carFavoriteCount': increaseCount});
+  }
+
+  // RETIER LA VOITURE DANS LA LISTE DES FAVORIS
+  void removeFavoriteCar(Car car, String userID) {
+    final carDocRef = _cars.doc(car.carID);
+    final favoritedBy = carDocRef.collection('favoritedBy');
+    int carFavoriteCount = car.carFavoriteCount!;
+    int decreaseCount = carFavoriteCount -= 1;
+    carDocRef.update({'carFavoriteCount': decreaseCount});
+    favoritedBy.doc(userID).delete();
+  }
+
+  // RECUPERATION DES VOITURES FAVORIS DE L'UTILISATEUR EN TEMPS REEL
+  Stream<Car> get myFavoriteCar {
+    final favoritedBy = _cars.doc(carID).collection('favoritedBy');
+    return favoritedBy.doc(userID).snapshots().map((doc) {
+      return Car(
+        carID: doc.id,
+        carName: doc.get('carName'),
+        carUrlImg: doc.get('carUrlImg'),
+        carUserID: doc.get('carUserID'),
+        carUserName: doc.get('carUserName'),
+        carFavoriteCount: doc.get('carFavoriteCount'),
+        carTimestamp: doc.get('carTimestamp'),
+      );
+    });
+  }
 }

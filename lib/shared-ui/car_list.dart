@@ -1,3 +1,4 @@
+import 'package:fire_cars/services/db_services.dart';
 import 'package:fire_cars/shared-ui/car_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,21 @@ class CarList extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (_, index) {
-          return CarFeed(car: _cars[index], userID: userID,);
+          return StreamBuilder(
+            stream: DbServices(
+              userID: userID,
+              carID: _cars[index].carID,
+            ).myFavoriteCar,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                _cars[index].isMyFavoriteCar = false;
+                return CarFeed(car: _cars[index], userID: userID);
+              } else {
+                _cars[index].isMyFavoriteCar = true;
+                return CarFeed(car: _cars[index], userID: userID);
+              }
+            },
+          );
         },
         childCount: _cars.length,
       ),
