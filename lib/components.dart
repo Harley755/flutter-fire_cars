@@ -31,6 +31,35 @@ class OpenSans extends StatelessWidget {
   }
 }
 
+class Poppins extends StatelessWidget {
+  final text;
+  final size;
+  final color;
+  final textAlignCenter;
+  final fontWeight;
+  const Poppins({
+    super.key,
+    @required this.text,
+    @required this.size,
+    this.color,
+    this.fontWeight,
+    this.textAlignCenter,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text.toString(),
+      textAlign: textAlignCenter == null ? TextAlign.start : textAlignCenter,
+      style: GoogleFonts.openSans(
+        fontSize: size,
+        color: color == null ? Colors.black : color,
+        fontWeight: fontWeight == null ? FontWeight.normal : fontWeight,
+      ),
+    );
+  }
+}
+
 // DIALOGUE BOX
 DialogBox(BuildContext context, String title) {
   return showDialog(
