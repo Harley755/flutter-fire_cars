@@ -1,16 +1,13 @@
 import 'package:fire_cars/services/authentification.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProfileAppBar extends HookConsumerWidget {
+class ProfileAppBar extends StatelessWidget {
   final User? user;
   const ProfileAppBar({super.key, this.user});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var viewModelProvider = ref.watch(authService);
-
+  Widget build(BuildContext context) {
     var heightDevice = MediaQuery.of(context).size.height * 0.40;
     return SliverAppBar(
       expandedHeight: heightDevice,
@@ -58,7 +55,7 @@ class ProfileAppBar extends HookConsumerWidget {
       actions: [
         IconButton(
           onPressed: () async {
-            await viewModelProvider.signOut();
+            await AuthService().signOut();
           },
           tooltip: 'Logout',
           icon: Icon(Icons.logout),

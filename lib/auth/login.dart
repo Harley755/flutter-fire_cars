@@ -1,16 +1,28 @@
 import 'package:fire_cars/components.dart';
 import 'package:fire_cars/services/authentification.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/sign_button.dart';
 
-class Login extends HookConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authServiceProvider = ref.watch(authService);
+class Login extends StatefulWidget {
+  const Login({super.key});
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  @override
+  Widget build(BuildContext context) {
+    bool inLoginProcess = false;
     var heightDevice = MediaQuery.of(context).size.height * .40;
     var widthDevice = MediaQuery.of(context).size.width;
+
+    signIn() {
+      setState(() {
+        inLoginProcess = true;
+        AuthService().signInWithGoogle(context);
+      });
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -44,17 +56,19 @@ class Login extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height: 60.0),
-              SignInButton(
-                width: widthDevice / 0.5,
-                buttonType: ButtonType.google,
-                btnColor: Colors.amber,
-                btnText: 'Connectez-vous avec Google',
-                btnTextColor: Colors.black,
-                buttonSize: ButtonSize.large,
-                onPressed: () async {
-                  await authServiceProvider.signInWithGoogle(context);
-                },
-              ),
+              inLoginProcess
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SignInButton(
+                      width: widthDevice / 0.5,
+                      buttonType: ButtonType.google,
+                      btnColor: Colors.amber,
+                      btnText: 'Connectez-vous avec Google',
+                      btnTextColor: Colors.black,
+                      buttonSize: ButtonSize.large,
+                      onPressed: () => signIn(),
+                    ),
             ],
           ),
         ),

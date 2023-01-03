@@ -1,3 +1,4 @@
+import 'package:fire_cars/shared-ui/car_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Add_card_section.dart';
@@ -12,7 +13,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
-          slivers: [HomeAppBar(user: _user), AddCardSection(user: _user)],
+          slivers: [
+            HomeAppBar(user: _user),
+            AddCardSection(user: _user),
+            CarList(userID: _user!.uid),
+          ],
         ),
       ),
     );

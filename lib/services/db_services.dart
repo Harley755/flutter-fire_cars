@@ -1,15 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
 import '../model/carModel.dart';
 
-final authService =
-    ChangeNotifierProvider.autoDispose<DbServices>((ref) => DbServices());
-
-class DbServices extends ChangeNotifier {
+class DbServices {
   CollectionReference _cars = FirebaseFirestore.instance.collection('cars');
   FirebaseStorage _storage = FirebaseStorage.instance;
 
@@ -39,20 +34,33 @@ class DbServices extends ChangeNotifier {
   }
 
   // RECUPERER TOUTES LES VOITURES
-  Future<List<Iterable<Car>>> get cars {
+  Stream<List<Car>> get cars {
     Query queryCars = _cars.orderBy('carTimestamp', descending: true);
     return queryCars.snapshots().map((snapshot) {
-      return snapshot.docs.map(
-        (doc) => Car(
+      return snapshot.docs.map((doc) {
+        return Car(
           carID: doc.id,
           carName: doc.get('carName'),
           carUrlImg: doc.get('carUrlImg'),
           carUserID: doc.get('carUserID'),
           carUserName: doc.get('carUserName'),
-          carTimestamp: doc.get('carTimestamp'),
           carFavoriteCount: doc.get('carFavoriteCount'),
-        ),
-      );
-    }).toList();
+          carTimestamp: doc.get('carTimestamp'),
+        );
+      }).toList();
+    });
   }
+
+  //   Future<void> incomesStream() async {
+  //   await for (var snapshot in _cars
+  //       .snapshots()) {
+  //     incomesName = [];
+  //     incomesAmount = [];
+  //     for (var income in snapshot.docs) {
+  //       incomesName.add(income.data()['Name']);
+  //       incomesAmount.add(income.data()['Amount']);
+  //       notifyListeners();
+  //     }
+  //   }
+  // }
 }
