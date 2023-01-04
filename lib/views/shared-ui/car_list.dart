@@ -1,3 +1,4 @@
+import 'package:fire_cars/components.dart';
 import 'package:fire_cars/services/db_services.dart';
 import 'package:fire_cars/views/shared-ui/car_feed.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,5 @@
 import 'package:fire_cars/auth/login.dart';
+import 'package:fire_cars/views/details/car_detail.dart';
 import 'package:fire_cars/views/profile/profile.dart';
 import 'package:fire_cars/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,15 @@ class Routes {
           builder: (_) => LayoutBuilder(
             builder: (context, constraints) {
               return Profile();
+            },
+          ),
+        );
+      case '/detail':
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => LayoutBuilder(
+            builder: (context, constraints) {
+              return CarDetails();
             },
           ),
         );

@@ -28,16 +28,23 @@ class CarFeed extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                color: Colors.grey,
-                image: DecorationImage(
-                  image: NetworkImage(car!.carUrlImg!),
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                '/detail',
+                arguments: car!,
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.35,
+                margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  color: Colors.grey,
+                  image: DecorationImage(
+                    image: NetworkImage(car!.carUrlImg!),
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  ),
                 ),
               ),
             ),
