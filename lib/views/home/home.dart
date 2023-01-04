@@ -1,4 +1,4 @@
-import 'package:fire_cars/shared-ui/car_list.dart';
+import 'package:fire_cars/views/shared-ui/car_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Add_card_section.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:fire_cars/services/db_services.dart';
-import 'package:fire_cars/shared-ui/showSnackBar.dart';
+import 'package:fire_cars/views/shared-ui/showSnackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

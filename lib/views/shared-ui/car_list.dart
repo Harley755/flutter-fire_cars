@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../../model/carModel.dart';
 
 class CarList extends StatelessWidget {
-  final String? userID;
-  const CarList({super.key, this.userID});
+  final String? userID, pageName;
+  const CarList({super.key, this.userID, this.pageName});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,11 @@ class CarList extends StatelessWidget {
               carID: _cars[index].carID,
             ).myFavoriteCar,
             builder: (context, snapshot) {
+              if (pageName == 'Profile') {
+                if (!snapshot.hasData) return Container();
+                _cars[index].isMyFavoriteCar = true;
+                return CarFeed(car: _cars[index], userID: userID);
+              }
               if (!snapshot.hasData) {
                 _cars[index].isMyFavoriteCar = false;
                 return CarFeed(car: _cars[index], userID: userID);
