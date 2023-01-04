@@ -1,9 +1,9 @@
 import 'package:fire_cars/services/db_services.dart';
-import 'package:fire_cars/shared-ui/car_feed.dart';
+import 'package:fire_cars/views/shared-ui/car_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/carModel.dart';
+import '../../model/carModel.dart';
 
 class CarList extends StatelessWidget {
   final String? userID;

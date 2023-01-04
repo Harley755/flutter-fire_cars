@@ -2,7 +2,7 @@ import 'package:fire_cars/components.dart';
 import 'package:fire_cars/services/db_services.dart';
 import 'package:flutter/material.dart';
 
-import '../model/carModel.dart';
+import '../../model/carModel.dart';
 
 class FavoriteBadge extends StatefulWidget {
   final Car? car;
@@ -42,7 +42,7 @@ class _FavoriteBadgeState extends State<FavoriteBadge> {
                     ),
                     Icon(
                       Icons.favorite,
-                      color: Colors.red,
+                      color: Colors.red
                     )
                   ],
                 ),

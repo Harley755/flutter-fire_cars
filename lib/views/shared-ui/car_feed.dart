@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_cars/components.dart';
 import 'package:fire_cars/model/carModel.dart';
-import 'package:fire_cars/shared-ui/favorite_badge.dart';
+import 'package:fire_cars/views/shared-ui/favorite_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -9,12 +9,10 @@ import 'package:intl/intl.dart';
 class CarFeed extends StatelessWidget {
   final Car? car;
   final String? userID;
-  final DocumentSnapshot? documentSnapshot;
   const CarFeed({
     super.key,
     this.car,
     this.userID,
-    this.documentSnapshot,
   });
 
   @override
